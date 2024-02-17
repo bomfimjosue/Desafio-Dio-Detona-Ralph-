@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Detona Ralph - O Jogo</title>
+    <style>
+        /* Estilos CSS para o jogo */
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #container {
+            width: 800px;
+            height: 600px;
+            margin: 0 auto;
+            position: relative;
+            border: 2px solid #333;
+            background-image: url("fundo.jpg"); /* Imagem de fundo do jogo */
+            background-size: cover;
+        }
+
+        #ralph {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            background-image: url("ralph.png"); /* Imagem do Ralph */
+            background-size: contain;
+        }
+
+        #score {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detona Ralph - O Jogo</h1>
+    <div id="container">
+        <div id="ralph"></div>
+        <div id="score">Pontos: 0</div>
+    </div>
+    <script>
+        // Código Javascript para o jogo
+        // Variáveis globais
+        var ralph = document.getElementById("ralph"); // Elemento do Ralph
+        var score = document.getElementById("score"); // Elemento do placar
+        var pontos = 0; // Contador de pontos
+        var timer; // Temporizador
+        var audio = new Audio("som.mp3"); // Áudio do jogo
+
+        // Função para iniciar o jogo
+        function iniciar() {
+            // Esconder o Ralph
+            ralph.style.display = "none";
+            // Sortear uma posição aleatória para o Ralph
+            var x = Math.floor(Math.random() * 700); // Valor entre 0 e 700
+            var y = Math.floor(Math.random() * 500); // Valor entre 0 e 500
+            // Posicionar o Ralph na posição sorteada
+            ralph.style.left = x + "px";
+            ralph.style.top = y + "px";
+            // Mostrar o Ralph
+            ralph.style.display = "block";
+            // Definir um tempo aleatório para o Ralph aparecer
+            var tempo = Math.floor(Math.random() * 3000) + 1000; // Valor entre 1000 e 4000
+            // Chamar a função iniciar novamente após o tempo definido
+            timer = setTimeout(iniciar, tempo);
+        }
+
+        // Função para acertar o Ralph
+        function acertar() {
+            // Parar o temporizador
+            clearTimeout(timer);
+            // Tocar o áudio
+            audio.play();
+            // Aumentar os pontos
+            pontos++;
+            // Atualizar o placar
+            score.innerHTML = "Pontos: " + pontos;
+            // Iniciar o jogo novamente
+            iniciar();
+        }
+
+        // Adicionar um evento de clique no Ralph
+        ralph.addEventListener("click", acertar);
+
+        // Iniciar o jogo pela primeira vez
+        iniciar();
+    </script>
+</body>
+</html>
